@@ -1,0 +1,15 @@
+plsp-timebank/
+├── server.js
+├── package.json
+├── Dockerfile
+├── docker-compose.yml
+├── .env
+├── .dockerignore
+├── data/                    (auto-created)
+└── public/
+    ├── index.html           (Frontend - Part 7)
+    ├── css/
+    │   └── style.css
+    └── js/
+        └── app.js
+        
