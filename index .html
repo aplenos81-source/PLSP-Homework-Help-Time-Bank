@@ -1,0 +1,1550 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PLSP Time-Bank - Live Tutoring</title>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{--b:#003366;--g:#FFD700;--l:#f0f4f8;--ok:#28a745;--no:#dc3545;--w:#ffc107;--info:#17a2b8;--dark:#1a1a2e}
+body{font-family:'Segoe UI',Tahoma,sans-serif;background:linear-gradient(135deg,var(--b) 0%,#001a33 100%);min-height:100vh;color:#333}
+.c{max-width:1200px;margin:0 auto;padding:15px}
+.h{text-align:center;color:#fff;padding:25px 0}
+.h h1{font-size:1.8em;margin-bottom:8px}
+.h p{font-size:1em;opacity:.9}
+.logo{width:60px;height:60px;background:var(--g);border-radius:50%;display:inline-flex;align-items:center;justify-content:center;margin-bottom:12px;font-size:1.8em;color:var(--b)}
+.card{background:#fff;border-radius:20px;padding:25px;box-shadow:0 10px 40px rgba(0,0,0,0.2);max-width:500px;margin:0 auto 20px}
+.card h2{color:var(--b);margin-bottom:18px;text-align:center;font-size:1.4em}
+.fg{margin-bottom:15px}
+.fg label{display:block;margin-bottom:5px;font-weight:600;color:#555;font-size:.95em}
+.fg input,.fg select,.fg textarea{width:100%;padding:12px;border:2px solid #e0e0e0;border-radius:12px;font-size:1em;font-family:inherit}
+.fg input:focus,.fg select:focus,.fg textarea:focus{outline:none;border-color:var(--b)}
+.btn{width:100%;padding:12px;border:none;border-radius:12px;font-size:1em;font-weight:600;cursor:pointer;transition:all .3s;margin-bottom:8px;display:flex;align-items:center;justify-content:center;gap:8px}
+.btn-p{background:var(--b);color:#fff}
+.btn-s{background:var(--ok);color:#fff}
+.btn-d{background:var(--no);color:#fff}
+.btn-o{background:transparent;border:2px solid var(--b);color:var(--b)}
+.btn-i{background:var(--info);color:#fff}
+.btn-g{background:var(--g);color:var(--b)}
+.btn-gy{background:#6c757d;color:#fff}
+.btn:hover{opacity:.9;transform:translateY(-1px)}
+.link{color:var(--b);text-decoration:none;font-weight:600;cursor:pointer}
+.tc{text-align:center}
+.mt{margin-top:12px}
+.dash{display:none}
+.dash.act{display:block !important}
+.ub{background:#fff;border-radius:15px;padding:15px;margin-bottom:15px;display:flex;justify-content:space-between;align-items:center;box-shadow:0 5px 20px rgba(0,0,0,0.1);flex-wrap:wrap;gap:10px}
+.ui h3{color:var(--b);margin-bottom:3px;font-size:1.1em}
+.cb{background:linear-gradient(135deg,var(--g),#ffed4e);color:var(--b);padding:10px 16px;border-radius:12px;font-weight:800;font-size:1.1em;display:flex;align-items:center;gap:6px}
+.ag{display:grid;grid-template-columns:1fr 1fr;gap:15px;margin-bottom:15px}
+.ac{background:#fff;border-radius:18px;padding:22px;text-align:center;cursor:pointer;transition:all .3s;box-shadow:0 5px 20px rgba(0,0,0,0.1);border:3px solid transparent}
+.ac:hover{transform:translateY(-4px)}
+.ac.teach{border-color:var(--ok)}
+.ac.learn{border-color:var(--b)}
+.ai{width:55px;height:55px;border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 12px;font-size:1.5em;color:#fff}
+.teach .ai{background:var(--ok)}
+.learn .ai{background:var(--b)}
+.ac h3{font-size:1.1em;margin-bottom:6px}
+.ac p{color:#666;font-size:.85em}
+.hid{display:none !important}
+.stl{color:#fff;font-size:1.2em;margin-bottom:12px;display:flex;align-items:center;gap:8px}
+.bb{display:inline-flex;align-items:center;gap:6px;color:#fff;cursor:pointer;margin-bottom:12px;font-weight:600;font-size:.95em}
+.sg{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-top:12px}
+.sb{background:#fff;border:2px solid #e0e0e0;border-radius:12px;padding:14px;text-align:center;cursor:pointer;transition:all .3s;font-size:.9em}
+.sb:hover{border-color:var(--b);background:var(--l);transform:scale(1.03)}
+.sb i{font-size:1.5em;margin-bottom:6px;color:var(--b);display:block}
+.sb.act{border-color:var(--b);background:var(--l)}
+.es{text-align:center;padding:25px;color:#999}
+.es i{font-size:2em;margin-bottom:8px;color:#ddd}
+.tc2{background:#fff;border-radius:12px;padding:15px;margin-bottom:10px;box-shadow:0 3px 10px rgba(0,0,0,0.1);cursor:pointer;transition:all .3s;display:flex;align-items:center;gap:12px}
+.tc2:hover{transform:translateX(4px)}
+.ta{width:45px;height:45px;border-radius:50%;background:var(--l);display:flex;align-items:center;justify-content:center;font-size:1.1em;color:var(--b);font-weight:bold}
+.ti{flex:1}
+.ti h4{color:var(--b);margin-bottom:2px;font-size:1em}
+.ti p{color:#666;font-size:.8em}
+.tcost{background:var(--g);color:var(--b);padding:5px 10px;border-radius:12px;font-weight:700;font-size:.85em}
+.mo{display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.6);z-index:1000;justify-content:center;align-items:center;padding:15px}
+.mo.act{display:flex !important}
+.md{background:#fff;border-radius:18px;padding:22px;max-width:420px;width:100%;text-align:center}
+.mi{font-size:3em;margin-bottom:12px}
+.md h3{font-size:1.2em;margin-bottom:8px;color:var(--b)}
+.md p{color:#666;margin-bottom:15px;font-size:.9em}
+.al{padding:10px;border-radius:10px;margin-bottom:12px;display:none;align-items:center;gap:8px;font-size:.85em}
+.al.act{display:flex !important}
+.al-d{background:#f8d7da;color:#721c24}
+.al-s{background:#d4edda;color:#155724}
+.al-w{background:#fff3cd;color:#856404}
+@media(max-width:768px){.ag{grid-template-columns:1fr}.ub{flex-direction:column;text-align:center}.h h1{font-size:1.4em}}
+.booking-card{background:#fff;border-radius:12px;padding:15px;margin-bottom:10px;box-shadow:0 3px 10px rgba(0,0,0,0.1)}
+.booking-card h4{color:var(--b);margin-bottom:5px;font-size:1em}
+.booking-card p{color:#666;font-size:.8em;margin-bottom:3px}
+.booking-actions{display:flex;gap:6px;margin-top:10px;flex-wrap:wrap}
+.booking-actions .btn{margin-bottom:0;width:auto;flex:1;padding:8px;font-size:.85em;min-width:80px}
+.badge{display:inline-block;padding:2px 8px;border-radius:10px;font-size:.65em;font-weight:700;margin-left:4px}
+.badge-pending{background:var(--w);color:#333}
+.badge-booked{background:var(--no);color:#fff}
+.badge-active{background:var(--ok);color:#fff}
+.badge-done{background:var(--b);color:#fff}
+.rs{color:var(--g);font-size:1.2em;cursor:pointer}
+.rs i{margin:0 2px}
+.hi{background:#fff;border-radius:10px;padding:10px;margin-bottom:6px;display:flex;justify-content:space-between;align-items:center}
+.hi .hif{flex:1}
+.hi .hic{font-weight:700;font-size:.9em}
+.ce{color:var(--ok)}
+.cs{color:var(--no)}
+.online-tutors{background:#fff;border-radius:15px;padding:18px;margin-bottom:15px;box-shadow:0 5px 20px rgba(0,0,0,0.1)}
+.online-tutors h3{color:var(--b);margin-bottom:12px;display:flex;align-items:center;gap:8px;font-size:1.1em}
+.tutor-online{display:flex;align-items:center;gap:10px;padding:10px;border-bottom:1px solid #eee;cursor:pointer;transition:all .3s}
+.tutor-online:hover{background:var(--l);border-radius:10px}
+.tutor-online:last-child{border-bottom:none}
+.tutor-avatar{width:40px;height:40px;border-radius:50%;background:var(--b);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:1em}
+.tutor-info{flex:1}
+.tutor-info h4{color:var(--b);font-size:.95em;margin-bottom:2px}
+.tutor-info p{color:#666;font-size:.75em}
+.tutor-subjects{display:flex;gap:4px;flex-wrap:wrap;margin-top:3px}
+.tutor-subjects span{background:var(--l);color:var(--b);padding:2px 8px;border-radius:10px;font-size:.7em;font-weight:600}
+.online-dot{width:8px;height:8px;background:var(--ok);border-radius:50%;animation:pulse 1.5s infinite;flex-shrink:0}
+.online-dot.busy{background:var(--w);animation:none}
+@keyframes pulse{0%{opacity:1;transform:scale(1)}50%{opacity:.5;transform:scale(1.3)}100%{opacity:1;transform:scale(1)}}
+.video-call-overlay{display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:var(--dark);z-index:3000;flex-direction:column}
+.video-call-overlay.act{display:flex !important}
+.video-header{background:rgba(0,0,0,0.5);padding:12px 15px;display:flex;justify-content:space-between;align-items:center;color:#fff}
+.video-header h3{display:flex;align-items:center;gap:8px;font-size:1em}
+.video-grid{flex:1;display:grid;grid-template-columns:1fr 1fr;gap:8px;padding:8px;overflow:auto}
+.video-box{background:#000;border-radius:12px;position:relative;overflow:hidden;display:flex;align-items:center;justify-content:center;min-height:150px}
+.video-box video{width:100%;height:100%;object-fit:cover}
+.video-box .video-label{position:absolute;bottom:8px;left:8px;background:rgba(0,0,0,0.6);color:#fff;padding:4px 10px;border-radius:6px;font-size:.8em}
+.video-box .video-placeholder{color:#fff;font-size:2.5em}
+.video-controls{background:rgba(0,0,0,0.7);padding:12px;display:flex;justify-content:center;gap:12px}
+.video-controls .btn{width:auto;padding:10px 16px;border-radius:50%;font-size:1.1em;margin-bottom:0}
+.video-controls .btn-end{background:var(--no);border-radius:10px;padding:10px 25px;font-size:.9em}
+.video-controls .btn-mute{background:#444;color:#fff}
+.video-controls .btn-mute.muted{background:var(--no)}
+.video-controls .btn-cam{background:#444;color:#fff}
+.video-controls .btn-cam.off{background:var(--no)}
+.chat-panel{background:#fff;border-radius:15px;padding:15px;margin-bottom:15px;box-shadow:0 5px 20px rgba(0,0,0,0.1);display:none}
+.chat-panel.act{display:block !important}
+.chat-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;padding-bottom:8px;border-bottom:2px solid var(--l)}
+.chat-header h3{color:var(--b);display:flex;align-items:center;gap:8px;font-size:1.1em}
+.chat-messages{height:200px;overflow-y:auto;padding:8px;background:var(--l);border-radius:10px;margin-bottom:10px}
+.chat-msg{margin-bottom:8px;max-width:80%;padding:8px 12px;border-radius:10px;font-size:.85em;word-wrap:break-word}
+.chat-msg.sent{background:var(--b);color:#fff;margin-left:auto;border-bottom-right-radius:3px}
+.chat-msg.received{background:#fff;border:1px solid #ddd;border-bottom-left-radius:3px}
+.chat-msg .msg-time{font-size:.65em;opacity:.7;margin-top:3px;display:block}
+.chat-input{display:flex;gap:6px}
+.chat-input input{flex:1;padding:10px;border:2px solid #e0e0e0;border-radius:10px;font-size:.85em}
+.chat-input .btn{width:auto;padding:10px 14px;font-size:.9em;margin-bottom:0}
+.session-card{background:linear-gradient(135deg,var(--ok),#20c997);color:#fff;border-radius:15px;padding:18px;margin-bottom:15px;text-align:center;box-shadow:0 8px 25px rgba(40,167,69,0.3)}
+.session-card h3{font-size:1.2em;margin-bottom:6px}
+.session-card p{opacity:.9;margin-bottom:12px;font-size:.9em}
+.session-timer{font-size:1.6em;font-weight:700;font-family:'Courier New',monospace;margin-bottom:12px}
+.session-actions{display:flex;gap:8px;justify-content:center;flex-wrap:wrap}
+.session-actions .btn{width:auto;padding:10px 18px;font-size:.85em;margin-bottom:0}
+.end-modal .md{max-width:380px}
+.end-reasons{display:flex;flex-direction:column;gap:6px;margin:12px 0;text-align:left}
+.end-reasons label{display:flex;align-items:center;gap:8px;padding:8px;background:var(--l);border-radius:8px;cursor:pointer;font-size:.9em}
+.end-reasons input{margin:0}
+.toast{position:fixed;bottom:15px;right:15px;background:var(--b);color:#fff;padding:12px 18px;border-radius:12px;box-shadow:0 5px 20px rgba(0,0,0,0.3);display:none;align-items:center;gap:10px;z-index:2000;animation:slideIn .3s ease}
+.toast.act{display:flex !important}
+.toast i{font-size:1.1em}
+@keyframes slideIn{from{transform:translateX(100px);opacity:0}to{transform:translateX(0);opacity:1}}
+.search-wrap{display:flex;gap:6px;margin-bottom:12px}
+.search-wrap input{flex:1;padding:10px;border:2px solid #e0e0e0;border-radius:10px;font-size:.9em}
+.search-wrap .btn{width:auto;padding:10px 14px;font-size:.9em;margin-bottom:0}
+.refresh-btn{background:var(--l);border:2px solid var(--b);color:var(--b);padding:6px 12px;border-radius:8px;cursor:pointer;font-weight:600;display:inline-flex;align-items:center;gap:6px;margin-bottom:12px;transition:all .3s;font-size:.85em}
+.refresh-btn:hover{background:var(--b);color:#fff}
+.refresh-btn i{transition:transform .3s}
+.refresh-btn:hover i{transform:rotate(180deg)}
+.rt-ind{display:inline-flex;align-items:center;gap:6px;background:rgba(40,167,69,0.15);color:var(--ok);padding:5px 10px;border-radius:20px;font-size:.75em;font-weight:700;margin-left:8px}
+.rt-dot{width:8px;height:8px;background:var(--ok);border-radius:50%;animation:pulse 1.5s infinite}
+.live-badge{background:var(--no);color:#fff;padding:2px 6px;border-radius:8px;font-size:.6em;margin-left:4px;animation:pulse 2s infinite}
+.custom-sub{display:flex;gap:6px;margin-top:8px}
+.custom-sub input{flex:1}
+.custom-sub .btn{width:auto;padding:8px 12px;font-size:.85em;margin-bottom:0}
+.conn-status{position:fixed;top:10px;right:10px;background:#fff;padding:6px 10px;border-radius:8px;box-shadow:0 2px 10px rgba(0,0,0,0.1);font-size:.75em;font-weight:600;display:flex;align-items:center;gap:6px;z-index:999}
+.conn-status.online{color:var(--ok)}
+.conn-status.offline{color:var(--no)}
+.conn-status i{font-size:.85em}
+.video-link-section{background:var(--l);border-radius:12px;padding:15px;margin:12px 0;text-align:center;border:2px dashed var(--b)}
+.video-link-section h4{color:var(--b);margin-bottom:8px;font-size:1em}
+.video-link-section p{color:#666;font-size:.85em;margin-bottom:10px}
+.copy-link-btn{background:var(--b);color:#fff;padding:8px 16px;border-radius:8px;border:none;cursor:pointer;font-weight:600;font-size:.85em;display:inline-flex;align-items:center;gap:6px;transition:all .3s}
+.copy-link-btn:hover{background:#002244}
+.link-display{background:#fff;border:2px solid #e0e0e0;border-radius:8px;padding:10px;font-family:monospace;font-size:.8em;color:var(--b);word-break:break-all;margin:8px 0;text-align:left}
+.call-notif{position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);background:#fff;border-radius:20px;padding:30px;box-shadow:0 20px 60px rgba(0,0,0,0.4);z-index:4000;text-align:center;max-width:350px;width:90%;display:none}
+.call-notif.act{display:block !important;animation:popIn .3s ease}
+.call-notif .caller-avatar{width:70px;height:70px;border-radius:50%;background:var(--b);color:#fff;display:flex;align-items:center;justify-content:center;font-size:1.8em;margin:0 auto 15px}
+.call-notif h3{color:var(--b);margin-bottom:8px;font-size:1.2em}
+.call-notif p{color:#666;margin-bottom:20px;font-size:.9em}
+.call-notif .btn{width:auto;padding:12px 24px;margin:0 5px}
+@keyframes popIn{from{transform:translate(-50%,-50%) scale(.8);opacity:0}to{transform:translate(-50%,-50%) scale(1);opacity:1}}
+</style>
+</head>
+<body>
+<div class="conn-status online" id="connStatus"><i class="fas fa-wifi"></i> <span>Server Connected</span></div>
+<div class="toast" id="toast"><i class="fas fa-bell"></i><span id="toastMsg"></span></div>
+
+<div class="c">
+
+<div class="h">
+  <div class="logo"><i class="fas fa-graduation-cap"></i></div>
+  <h1>PLSP Homework Help Time-Bank</h1>
+  <p>Pamantasan ng Lungsod ng San Pablo &bull; BSCPE 2B <span class="rt-ind"><span class="rt-dot"></span> LIVE</span></p>
+</div>
+
+<!-- AUTH SECTION -->
+<div id="authSec">
+  <div class="card" id="loginCard">
+    <h2><i class="fas fa-sign-in-alt"></i> Log In</h2>
+    <div class="al al-d" id="loginAlert"><i class="fas fa-exclamation-circle"></i><span id="loginAlertText"></span></div>
+    <div class="fg"><label>Email / Student ID</label><input type="text" id="inEmail" placeholder="e.g. 2023XXXXX@plsp.edu.ph"></div>
+    <div class="fg"><label>Password</label><input type="password" id="inPass" placeholder="Enter password"></div>
+    <button class="btn btn-p" onclick="doLogin()"><i class="fas fa-sign-in-alt"></i> Log In</button>
+    <div class="tc mt"><span class="link" onclick="showReg()">New student? Create account</span></div>
+  </div>
+
+  <div class="card hid" id="regCard">
+    <h2><i class="fas fa-user-plus"></i> Sign Up</h2>
+    <div class="al al-d" id="regAlert"><i class="fas fa-exclamation-circle"></i><span id="regAlertText"></span></div>
+    <div class="fg"><label>Full Name</label><input type="text" id="regName" placeholder="Juan Dela Cruz"></div>
+    <div class="fg"><label>Student ID</label><input type="text" id="regID" placeholder="2023XXXXX"></div>
+    <div class="fg"><label>Email</label><input type="email" id="regEmail" placeholder="@plsp.edu.ph"></div>
+    <div class="fg"><label>Password</label><input type="password" id="regPass" placeholder="Min 6 characters"></div>
+    <div class="fg"><label>Course</label>
+      <select id="regCourse"><option value="">Select Course</option><option>BSCPE</option><option>BSIT</option><option>BSCS</option><option>BSCE</option><option>BSEE</option><option>BSECE</option><option>BSME</option><option>BSIE</option></select>
+    </div>
+    <div class="fg"><label>Year Level</label>
+      <select id="regYear"><option value="">Select Year</option><option>1st Year</option><option>2nd Year</option><option>3rd Year</option><option>4th Year</option></select>
+    </div>
+    <button class="btn btn-p" onclick="doReg()"><i class="fas fa-user-plus"></i> Create Account</button>
+    <div class="tc mt"><span class="link" onclick="showLogin()">Already have account? Log in</span></div>
+  </div>
+</div>
+
+<!-- DASHBOARD -->
+<div id="dashSec" class="dash">
+  <div class="ub">
+    <div class="ui"><h3 id="uName">Welcome!</h3><p id="uInfo" style="color:#666;font-size:.85em"></p></div>
+    <div class="cb"><i class="fas fa-coins"></i> <span id="uBal">0</span> hrs</div>
+    <button class="btn btn-d" style="width:auto;padding:8px 14px;font-size:.85em" onclick="doLogout()"><i class="fas fa-sign-out-alt"></i></button>
+  </div>
+
+  <div class="ag">
+    <div class="ac teach" onclick="goTeach()"><div class="ai"><i class="fas fa-chalkboard-teacher"></i></div><h3>Be a Tutor</h3><p>Share knowledge & earn credits</p></div>
+    <div class="ac learn" onclick="goLearn()"><div class="ai"><i class="fas fa-book-reader"></i></div><h3>Find a Tutor</h3><p>Get help & spend credits</p></div>
+  </div>
+
+  <div class="online-tutors">
+    <h3><i class="fas fa-broadcast-tower" style="color:var(--ok)"></i> Online Tutors Now <span class="live-badge">LIVE</span></h3>
+    <div id="onlineTutorsList"><div class="es"><i class="fas fa-user-slash"></i><p>No tutors online right now</p></div></div>
+  </div>
+
+  <div id="tutorVideoLink" class="video-link-section hid">
+    <h4><i class="fas fa-video"></i> Your Video Call Room</h4>
+    <p>Share this link with your student:</p>
+    <div class="link-display" id="tutorLinkDisplay">Generating...</div>
+    <button class="copy-link-btn" onclick="copyTutorLink()"><i class="fas fa-copy"></i> Copy Link</button>
+    <button class="btn btn-s" style="width:auto;display:inline-flex;margin-left:8px" onclick="enterVideoRoom()"><i class="fas fa-door-open"></i> Enter Room</button>
+  </div>
+
+  <div id="studentVideoJoin" class="video-link-section hid">
+    <h4><i class="fas fa-video"></i> Join Video Call</h4>
+    <p>Paste the tutor's room link or enter room code:</p>
+    <div class="fg" style="margin-bottom:8px">
+      <input type="text" id="roomCodeInput" placeholder="Paste room link or enter room code..." style="text-align:center">
+    </div>
+    <button class="btn btn-p" onclick="joinByRoomCode()"><i class="fas fa-sign-in-alt"></i> Join Room</button>
+  </div>
+
+  <div id="activeSession" class="session-card hid">
+    <h3><i class="fas fa-video"></i> Active Tutoring Session</h3>
+    <p id="sessionWith">With: --</p>
+    <div class="session-timer" id="sessionTimer">00:00:00</div>
+    <div class="session-actions">
+      <button class="btn btn-i" onclick="toggleChat()"><i class="fas fa-comments"></i> Chat</button>
+      <button class="btn btn-g" onclick="joinVideoCall()"><i class="fas fa-video"></i> Join Video</button>
+      <button class="btn btn-d" onclick="showEndSession()"><i class="fas fa-stop-circle"></i> End Session</button>
+    </div>
+  </div>
+
+  <div id="chatPanel" class="chat-panel">
+    <div class="chat-header"><h3><i class="fas fa-comments"></i> <span id="chatWith">Chat</span></h3><span class="link" onclick="toggleChat()" style="font-size:1.2em"><i class="fas fa-times"></i></span></div>
+    <div class="chat-messages" id="chatMessages"></div>
+    <div class="chat-input"><input type="text" id="chatInput" placeholder="Type a message..." onkeypress="if(event.key==='Enter')sendChat()"><button class="btn btn-p" onclick="sendChat()"><i class="fas fa-paper-plane"></i></button></div>
+  </div>
+
+  <div class="stl"><i class="fas fa-calendar-check"></i> My Bookings</div>
+  <button class="refresh-btn" onclick="loadMyBookings()"><i class="fas fa-sync-alt"></i> Refresh</button>
+  <div id="myBookings"></div>
+
+  <div class="stl"><i class="fas fa-history"></i> Session History</div>
+  <div id="myHistory"></div>
+</div>
+
+<!-- TEACH SECTION -->
+<div id="teachSec" class="dash">
+  <span class="bb" onclick="goDash()"><i class="fas fa-arrow-left"></i> Back to Dashboard</span>
+  <div class="card" style="max-width:600px">
+    <h2><i class="fas fa-chalkboard-teacher"></i> Become a Tutor</h2>
+    <div class="al al-d" id="teachAlert"><i class="fas fa-exclamation-circle"></i><span id="teachAlertText"></span></div>
+    <div class="fg"><label>Subjects you can teach</label><div class="sg" id="subjectsGrid"></div>
+      <div class="custom-sub"><input type="text" id="customSub" placeholder="Add custom subject..."><button class="btn btn-p" style="width:auto" onclick="addCustomSub()"><i class="fas fa-plus"></i></button></div>
+    </div>
+    <div class="fg"><label>Hourly Rate (in time credits)</label>
+      <select id="teachRate"><option value="0.5">0.5 hrs</option><option value="1" selected>1 hr</option><option value="1.5">1.5 hrs</option><option value="2">2 hrs</option></select>
+    </div>
+    <div class="fg"><label>Available Schedule</label><input type="text" id="teachSched" placeholder="e.g. Mon-Fri 6PM-9PM"></div>
+    <div class="fg"><label>Short Bio</label><textarea id="teachBio" rows="3" placeholder="Tell students about yourself..."></textarea></div>
+    <div class="fg"><label><input type="checkbox" id="goOnlineNow"> Go Online Now (visible to students immediately)</label></div>
+    <button class="btn btn-s" onclick="saveTutorProfile()"><i class="fas fa-save"></i> Save Tutor Profile</button>
+  </div>
+</div>
+
+<!-- LEARN SECTION -->
+<div id="learnSec" class="dash">
+  <span class="bb" onclick="goDash()"><i class="fas fa-arrow-left"></i> Back to Dashboard</span>
+  <div class="stl"><i class="fas fa-search"></i> Find a Tutor</div>
+  <div class="search-wrap"><input type="text" id="searchTutor" placeholder="Search by subject or tutor name..." oninput="filterTutors()"><button class="btn btn-p" style="width:auto" onclick="filterTutors()"><i class="fas fa-search"></i></button></div>
+  <div id="tutorList"></div>
+</div>
+
+<!-- TUTOR DETAIL MODAL -->
+<div class="mo" id="tutorModal">
+  <div class="md">
+    <div class="mi" style="color:var(--b)"><i class="fas fa-user-circle"></i></div>
+    <h3 id="modalTutorName">Tutor Name</h3>
+    <p id="modalTutorInfo" style="font-size:.85em"></p>
+    <div id="modalTutorSubs" style="margin:10px 0"></div>
+    <div id="modalTutorBio" style="background:var(--l);padding:10px;border-radius:8px;margin:10px 0;font-size:.85em;color:#555;text-align:left"></div>
+    <p style="font-weight:700;color:var(--b);margin:10px 0">Rate: <span id="modalTutorRate" style="color:var(--ok)"></span> / hour</p>
+    <div style="background:var(--l);border-radius:10px;padding:12px;margin:12px 0;text-align:left">
+      <h4 style="color:var(--b);font-size:.9em;margin-bottom:6px"><i class="fas fa-video"></i> Video Call Option</h4>
+      <p style="font-size:.8em;color:#666;margin-bottom:8px">This tutor supports video tutoring.</p>
+      <label style="display:flex;align-items:center;gap:6px;font-size:.85em;cursor:pointer">
+        <input type="checkbox" id="wantVideoCall" checked> Include Video Call Link
+      </label>
+    </div>
+    <div class="fg" style="text-align:left"><label>Pick Date & Time</label><input type="datetime-local" id="bookTime"></div>
+    <div class="al al-d" id="bookAlert"><i class="fas fa-exclamation-circle"></i><span id="bookAlertText"></span></div>
+    <button class="btn btn-s" onclick="confirmBooking()"><i class="fas fa-calendar-check"></i> Book Session</button>
+    <button class="btn btn-o" onclick="closeModal()">Cancel</button>
+  </div>
+</div>
+
+<!-- VIDEO CALL OVERLAY -->
+<div class="video-call-overlay" id="videoOverlay">
+  <div class="video-header">
+    <h3><i class="fas fa-video"></i> <span id="videoWith">Tutoring Session</span> <span class="live-badge">LIVE</span></h3>
+    <div style="display:flex;align-items:center;gap:10px">
+      <span id="callTimer" style="font-family:monospace;font-size:1.1em">00:00:00</span>
+      <button class="btn btn-d" style="width:auto;padding:6px 12px;font-size:.8em" onclick="showEndSession()"><i class="fas fa-phone-slash"></i> End</button>
+    </div>
+  </div>
+  <div class="video-grid" id="videoGrid">
+    <div class="video-box" id="localVideoBox">
+      <video id="localVideo" autoplay muted playsinline></video>
+      <div class="video-label"><i class="fas fa-user"></i> You</div>
+      <div class="video-placeholder hid" id="localPlaceholder"><i class="fas fa-user"></i></div>
+    </div>
+    <div class="video-box" id="remoteVideoBox">
+      <video id="remoteVideo" autoplay playsinline></video>
+      <div class="video-label"><i class="fas fa-chalkboard-teacher"></i> <span id="remoteLabel">Tutor</span></div>
+      <div class="video-placeholder" id="remotePlaceholder"><i class="fas fa-user"></i></div>
+    </div>
+  </div>
+  <div class="video-controls">
+    <button class="btn btn-mute" id="muteBtn" onclick="toggleMute()"><i class="fas fa-microphone"></i></button>
+    <button class="btn btn-cam" id="camBtn" onclick="toggleCam()"><i class="fas fa-video"></i></button>
+    <button class="btn btn-i" style="border-radius:10px" onclick="toggleScreenShare()" id="screenBtn"><i class="fas fa-desktop"></i></button>
+    <button class="btn btn-g" style="border-radius:10px" onclick="toggleChat()"><i class="fas fa-comments"></i></button>
+    <button class="btn btn-end" onclick="showEndSession()"><i class="fas fa-phone-slash"></i> End Call</button>
+  </div>
+</div>
+
+<!-- END SESSION MODAL -->
+<div class="mo end-modal" id="endModal">
+  <div class="md">
+    <div class="mi" style="color:var(--no)"><i class="fas fa-stop-circle"></i></div>
+    <h3>End Tutoring Session?</h3>
+    <p>Please select a reason for ending:</p>
+    <div class="end-reasons">
+      <label><input type="radio" name="endReason" value="completed" checked> Session completed successfully</label>
+      <label><input type="radio" name="endReason" value="technical"> Technical issues</label>
+      <label><input type="radio" name="endReason" value="timeup"> Time is up</label>
+      <label><input type="radio" name="endReason" value="other"> Other reason</label>
+    </div>
+    <div class="fg" id="otherReasonBox" style="display:none"><input type="text" id="otherReason" placeholder="Please specify..."></div>
+    <div style="background:var(--l);padding:10px;border-radius:8px;margin:10px 0">
+      <p style="font-size:.85em;color:#555">Session Duration: <span id="endSessionDuration" style="font-weight:700;color:var(--b)">00:00:00</span></p>
+      <p style="font-size:.85em;color:#555">Credits to transfer: <span id="creditsToTransfer" style="font-weight:700;color:var(--ok)">0</span> hrs</p>
+    </div>
+    <button class="btn btn-d" onclick="endSession()"><i class="fas fa-check"></i> Confirm End Session</button>
+    <button class="btn btn-o" onclick="closeEndModal()">Cancel</button>
+  </div>
+</div>
+
+<!-- RATING MODAL -->
+<div class="mo" id="rateModal">
+  <div class="md">
+    <div class="mi" style="color:var(--g)"><i class="fas fa-star"></i></div>
+    <h3>Rate Your Tutor</h3>
+    <p>How was your tutoring session?</p>
+    <div class="rs" id="starRating">
+      <i class="far fa-star" onclick="setRating(1)"></i>
+      <i class="far fa-star" onclick="setRating(2)"></i>
+      <i class="far fa-star" onclick="setRating(3)"></i>
+      <i class="far fa-star" onclick="setRating(4)"></i>
+      <i class="far fa-star" onclick="setRating(5)"></i>
+    </div>
+    <div class="fg"><textarea id="rateComment" rows="2" placeholder="Optional comment..."></textarea></div>
+    <button class="btn btn-s" onclick="submitRating()"><i class="fas fa-paper-plane"></i> Submit Rating</button>
+  </div>
+</div>
+
+<!-- SUCCESS MODAL -->
+<div class="mo" id="successModal">
+  <div class="md">
+    <div class="mi" style="color:var(--ok)"><i class="fas fa-check-circle"></i></div>
+    <h3 id="successTitle">Success!</h3>
+    <p id="successMsg">Operation completed.</p>
+    <button class="btn btn-p" onclick="closeSuccess()">OK</button>
+  </div>
+</div>
+
+</div>
+
+<script src="/socket.io/socket.io.js"></script>
+<script>
+// ==================== PART 8A: SOCKET.IO + AUTH + DASHBOARD ====================
+
+const socket = io();
+
+// --- CONFIG ---
+const API_URL = '';
+const SUBJECTS = ['Mathematics','Physics','Chemistry','Programming','Circuits','Calculus','Electronics','Mechanics','Thermodynamics','English','Filipino'];
+
+// --- STATE ---
+let currentUser = null;
+let selectedTutor = null;
+let activeBooking = null;
+let sessionTimer = null;
+let sessionSeconds = 0;
+let chatInterval = null;
+let videoStream = null;
+let screenStream = null;
+let isMuted = false;
+let isCamOff = false;
+let isScreenSharing = false;
+let currentRating = 0;
+let callTimerInterval = null;
+let callSeconds = 0;
+let currentRoomId = null;
+let peerConnection = null;
+let localStream = null;
+
+// --- INIT ---
+document.addEventListener('DOMContentLoaded', () => {
+  initSubjects();
+  checkSession();
+  setupEndReasonListener();
+  setupSocketListeners();
+});
+
+function initSubjects() {
+  const grid = document.getElementById('subjectsGrid');
+  if(!grid) return;
+  grid.innerHTML = SUBJECTS.map(s => 
+    `<div class="sb" onclick="toggleSub(this)" data-sub="${s}"><i class="fas fa-book"></i>${s}</div>`
+  ).join('');
+}
+
+function toggleSub(el) {
+  el.classList.toggle('act');
+}
+
+function addCustomSub() {
+  const input = document.getElementById('customSub');
+  const val = input.value.trim();
+  if(!val) return;
+  const grid = document.getElementById('subjectsGrid');
+  const div = document.createElement('div');
+  div.className = 'sb act';
+  div.setAttribute('data-sub', val);
+  div.innerHTML = `<i class="fas fa-book"></i>${val}`;
+  div.onclick = function(){ this.classList.toggle('act'); };
+  grid.appendChild(div);
+  input.value = '';
+}
+
+function setupEndReasonListener() {
+  document.querySelectorAll('input[name="endReason"]').forEach(r => {
+    r.addEventListener('change', () => {
+      document.getElementById('otherReasonBox').style.display = 
+        r.value === 'other' ? 'block' : 'none';
+    });
+  });
+}
+
+function setupSocketListeners() {
+  socket.on('connect', () => {
+    console.log('Connected to server');
+    document.getElementById('connStatus').innerHTML = '<i class="fas fa-wifi"></i> <span>Server Connected</span>';
+    document.getElementById('connStatus').className = 'conn-status online';
+  });
+
+  socket.on('disconnect', () => {
+    document.getElementById('connStatus').innerHTML = '<i class="fas fa-wifi"></i> <span>Server Disconnected</span>';
+    document.getElementById('connStatus').className = 'conn-status offline';
+  });
+
+  socket.on('user-joined', ({ userId, userName }) => {
+    showToast(`${userName} joined the room!`);
+    document.getElementById('remotePlaceholder').classList.add('hid');
+  });
+
+  socket.on('user-left', ({ userId }) => {
+    showToast('Other user left the room');
+    document.getElementById('remotePlaceholder').classList.remove('hid');
+  });
+
+  socket.on('existing-participants', (participants) => {
+    if(participants.length > 0) {
+      document.getElementById('remotePlaceholder').classList.add('hid');
+    }
+  });
+
+  socket.on('chat-message', (data) => {
+    if(activeBooking && data.bookingId === activeBooking.id) {
+      displayChatMessage(data);
+    }
+  });
+
+  socket.on('peer-screen-share', ({ userId, isSharing }) => {
+    showToast(isSharing ? 'Peer started screen sharing' : 'Peer stopped screen sharing');
+  });
+
+  socket.on('offer', async ({ sender, offer }) => {
+    if(!peerConnection) createPeerConnection();
+    await peerConnection.setRemoteDescription(new RTCSessionDescription(offer));
+    const answer = await peerConnection.createAnswer();
+    await peerConnection.setLocalDescription(answer);
+    socket.emit('answer', { target: sender, answer });
+  });
+
+  socket.on('answer', async ({ sender, answer }) => {
+    await peerConnection.setRemoteDescription(new RTCSessionDescription(answer));
+  });
+
+  socket.on('ice-candidate', async ({ sender, candidate }) => {
+    if(peerConnection && candidate) {
+      await peerConnection.addIceCandidate(new RTCIceCandidate(candidate));
+    }
+  });
+}
+
+// --- AUTH FUNCTIONS ---
+function showReg() {
+  document.getElementById('loginCard').classList.add('hid');
+  document.getElementById('regCard').classList.remove('hid');
+  hideAlert('loginAlert');
+}
+
+function showLogin() {
+  document.getElementById('regCard').classList.add('hid');
+  document.getElementById('loginCard').classList.remove('hid');
+  hideAlert('regAlert');
+}
+
+function hideAlert(id) {
+  const el = document.getElementById(id);
+  if(el) el.classList.remove('act');
+}
+
+function showAlert(id, text, type='d') {
+  const el = document.getElementById(id);
+  const txt = document.getElementById(id.replace('Alert','AlertText'));
+  if(el && txt) {
+    el.className = `al al-${type} act`;
+    txt.textContent = text;
+  }
+}
+
+async function doReg() {
+  const name = document.getElementById('regName').value.trim();
+  const sid = document.getElementById('regID').value.trim();
+  const email = document.getElementById('regEmail').value.trim();
+  const pass = document.getElementById('regPass').value;
+  const course = document.getElementById('regCourse').value;
+  const year = document.getElementById('regYear').value;
+
+  if(!name || !sid || !email || !pass || !course || !year) {
+    return showAlert('regAlert', 'Please fill all fields');
+  }
+  if(pass.length < 6) return showAlert('regAlert', 'Password must be at least 6 characters');
+  if(!email.includes('@')) return showAlert('regAlert', 'Please enter a valid email');
+
+  try {
+    const res = await fetch('/api/register', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ name, studentId: sid, email, password: pass, course, year })
+    });
+    const data = await res.json();
+    
+    if(!data.success) return showAlert('regAlert', data.error || 'Registration failed');
+    
+    showAlert('regAlert', 'Account created! Please log in.', 's');
+    setTimeout(showLogin, 1500);
+  } catch(err) {
+    showAlert('regAlert', 'Server error. Please try again.');
+  }
+}
+
+async function doLogin() {
+  const email = document.getElementById('inEmail').value.trim();
+  const pass = document.getElementById('inPass').value;
+
+  if(!email || !pass) return showAlert('loginAlert', 'Please enter email and password');
+
+  try {
+    const res = await fetch('/api/login', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ email, password: pass })
+    });
+    const data = await res.json();
+    
+    if(!data.success) return showAlert('loginAlert', data.error || 'Invalid credentials');
+
+    currentUser = data.user;
+    localStorage.setItem('plsp_user', JSON.stringify(currentUser));
+    showDashboard();
+  } catch(err) {
+    showAlert('loginAlert', 'Server error. Please try again.');
+  }
+}
+
+function doLogout() {
+  currentUser = null;
+  localStorage.removeItem('plsp_user');
+  stopSessionTimer();
+  stopCallTimer();
+  if(videoStream) {
+    videoStream.getTracks().forEach(t => t.stop());
+    videoStream = null;
+  }
+  if(peerConnection) {
+    peerConnection.close();
+    peerConnection = null;
+  }
+  document.getElementById('authSec').style.display = 'block';
+  document.getElementById('dashSec').classList.remove('act');
+  document.getElementById('loginCard').classList.remove('hid');
+  document.getElementById('regCard').classList.add('hid');
+  document.getElementById('inEmail').value = '';
+  document.getElementById('inPass').value = '';
+}
+
+function checkSession() {
+  const saved = localStorage.getItem('plsp_user');
+  if(saved) {
+    currentUser = JSON.parse(saved);
+    showDashboard();
+  }
+}
+
+// --- DASHBOARD ---
+async function showDashboard() {
+  document.getElementById('authSec').style.display = 'none';
+  document.getElementById('dashSec').classList.add('act');
+  document.getElementById('teachSec').classList.remove('act');
+  document.getElementById('learnSec').classList.remove('act');
+
+  document.getElementById('uName').textContent = `Welcome, ${currentUser.name}!`;
+  document.getElementById('uInfo').textContent = `${currentUser.course} ${currentUser.year} | ${currentUser.studentId}`;
+  document.getElementById('uBal').textContent = currentUser.balance.toFixed(1);
+
+  await loadOnlineTutors();
+  await loadMyBookings();
+  await loadHistory();
+  checkActiveSession();
+  showVideoLinkSection();
+}
+
+function showVideoLinkSection() {
+  const tutorLinkSec = document.getElementById('tutorVideoLink');
+  const studentJoinSec = document.getElementById('studentVideoJoin');
+  
+  tutorLinkSec.classList.add('hid');
+  studentJoinSec.classList.remove('hid');
+}
+
+function generateTutorRoomLink() {
+  const roomId = `plsp-${currentUser.studentId}-${Date.now().toString(36)}`;
+  const baseUrl = window.location.origin;
+  const roomLink = `${baseUrl}/?room=${roomId}`;
+  document.getElementById('tutorLinkDisplay').textContent = roomLink;
+  currentRoomId = roomId;
+  return roomId;
+}
+
+function copyTutorLink() {
+  const link = document.getElementById('tutorLinkDisplay').textContent;
+  navigator.clipboard.writeText(link).then(() => {
+    showToast('Room link copied! Share with your student.');
+  }).catch(() => {
+    const ta = document.createElement('textarea');
+    ta.value = link;
+    document.body.appendChild(ta);
+    ta.select();
+    document.execCommand('copy');
+    document.body.removeChild(ta);
+    showToast('Room link copied! Share with your student.');
+  });
+}
+
+function enterVideoRoom() {
+  if(!currentRoomId) {
+    currentRoomId = generateTutorRoomLink();
+  }
+  startVideoCall(true);
+}
+
+function joinByRoomCode() {
+  const input = document.getElementById('roomCodeInput').value.trim();
+  if(!input) return showToast('Please enter a room code or link');
+
+  let roomId = input;
+  if(input.includes('?room=')) {
+    roomId = input.split('?room=')[1];
+  } else if(input.includes('room=')) {
+    roomId = input.split('room=')[1];
+  }
+
+  currentRoomId = roomId;
+  showToast('Connecting to room...');
+  startVideoCall(false);
+}
+
+function goTeach() {
+  document.getElementById('dashSec').classList.remove('act');
+  document.getElementById('teachSec').classList.add('act');
+  hideAlert('teachAlert');
+}
+
+function goLearn() {
+  document.getElementById('dashSec').classList.remove('act');
+  document.getElementById('learnSec').classList.add('act');
+  loadTutors();
+}
+
+function goDash() {
+  document.getElementById('teachSec').classList.remove('act');
+  document.getElementById('learnSec').classList.remove('act');
+  showDashboard();
+}
+// ==================== PART 8B: TUTOR PROFILE + FIND TUTORS + BOOKINGS ====================
+
+// --- TUTOR PROFILE ---
+async function saveTutorProfile() {
+  const subjects = Array.from(document.querySelectorAll('#subjectsGrid .sb.act')).map(el => el.dataset.sub);
+  const rate = parseFloat(document.getElementById('teachRate').value);
+  const schedule = document.getElementById('teachSched').value.trim();
+  const bio = document.getElementById('teachBio').value.trim();
+  const goOnline = document.getElementById('goOnlineNow').checked;
+
+  if(subjects.length === 0) return showAlert('teachAlert', 'Select at least one subject');
+  if(!schedule) return showAlert('teachAlert', 'Enter your available schedule');
+
+  const roomId = goOnline ? generateTutorRoomLink() : null;
+  const roomLink = roomId ? `${window.location.origin}/?room=${roomId}` : null;
+
+  const tutorData = {
+    userId: currentUser.id,
+    name: currentUser.name,
+    studentId: currentUser.studentId,
+    course: currentUser.course,
+    year: currentUser.year,
+    subjects,
+    rate,
+    schedule,
+    bio,
+    isOnline: goOnline,
+    roomId,
+    roomLink
+  };
+
+  try {
+    const res = await fetch('/api/tutor', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(tutorData)
+    });
+    const data = await res.json();
+    
+    if(!data.success) return showAlert('teachAlert', 'Failed to save profile');
+
+    currentUser.isTutor = true;
+    localStorage.setItem('plsp_user', JSON.stringify(currentUser));
+
+    showAlert('teachAlert', 'Tutor profile saved!', 's');
+    setTimeout(goDash, 1200);
+  } catch(err) {
+    showAlert('teachAlert', 'Server error. Please try again.');
+  }
+}
+
+// --- ONLINE TUTORS ---
+async function loadOnlineTutors() {
+  try {
+    const res = await fetch('/api/tutors');
+    const tutors = await res.json();
+    const online = tutors.filter(t => t.isOnline && t.userId !== currentUser.id);
+    const container = document.getElementById('onlineTutorsList');
+
+    if(online.length === 0) {
+      container.innerHTML = `<div class="es"><i class="fas fa-user-slash"></i><p>No tutors online right now</p></div>`;
+      return;
+    }
+
+    container.innerHTML = online.map(t => {
+      const hasVideo = t.roomLink ? true : false;
+      return `
+      <div class="tutor-online" onclick="quickBook('${t.userId}')">
+        <div class="tutor-avatar">${t.name.charAt(0)}</div>
+        <div class="tutor-info">
+          <h4>${t.name} ${hasVideo ? '<span style="color:var(--ok);font-size:.7em"><i class="fas fa-video"></i></span>' : ''}</h4>
+          <p>${t.course} ${t.year} | ⭐ ${t.rating || '0'}</p>
+          <div class="tutor-subjects">${t.subjects.map(s => `<span>${s}</span>`).join('')}</div>
+        </div>
+        <div class="online-dot"></div>
+      </div>`;
+    }).join('');
+  } catch(err) {
+    console.error('Failed to load tutors', err);
+  }
+}
+
+async function quickBook(tutorId) {
+  try {
+    const res = await fetch('/api/tutors');
+    const tutors = await res.json();
+    selectedTutor = tutors.find(t => t.userId === tutorId);
+    if(selectedTutor) openTutorModal();
+  } catch(err) {
+    showToast('Failed to load tutor info');
+  }
+}
+
+// --- FIND TUTORS ---
+async function loadTutors() {
+  try {
+    const res = await fetch('/api/tutors');
+    const tutors = await res.json();
+    const available = tutors.filter(t => t.userId !== currentUser.id);
+    renderTutorList(available);
+  } catch(err) {
+    document.getElementById('tutorList').innerHTML = `<div class="es"><i class="fas fa-exclamation-circle"></i><p>Server error</p></div>`;
+  }
+}
+
+function renderTutorList(tutors) {
+  const container = document.getElementById('tutorList');
+  if(tutors.length === 0) {
+    container.innerHTML = `<div class="es"><i class="fas fa-search"></i><p>No tutors found</p></div>`;
+    return;
+  }
+
+  container.innerHTML = tutors.map(t => {
+    const hasVideo = t.roomLink ? true : false;
+    return `
+    <div class="tc2" onclick="selectTutor('${t.userId}')">
+      <div class="ta">${t.name.charAt(0)}</div>
+      <div class="ti">
+        <h4>${t.name} ${t.isOnline ? '<span class="live-badge">ONLINE</span>' : ''} ${hasVideo ? '<span style="color:var(--ok);font-size:.8em"><i class="fas fa-video"></i></span>' : ''}</h4>
+        <p>${t.subjects.slice(0,3).join(', ')}${t.subjects.length>3?'...':''} | ${t.course} ${t.year}</p>
+      </div>
+      <div class="tcost">${t.rate} hrs</div>
+    </div>`;
+  }).join('');
+}
+
+function filterTutors() {
+  const query = document.getElementById('searchTutor').value.toLowerCase();
+  loadTutors().then(() => {
+    const cards = document.querySelectorAll('.tc2');
+    cards.forEach(card => {
+      const text = card.textContent.toLowerCase();
+      card.style.display = text.includes(query) ? 'flex' : 'none';
+    });
+  });
+}
+
+async function selectTutor(id) {
+  try {
+    const res = await fetch('/api/tutors');
+    const tutors = await res.json();
+    selectedTutor = tutors.find(t => t.userId === id);
+    openTutorModal();
+  } catch(err) {
+    showToast('Failed to load tutor');
+  }
+}
+
+function openTutorModal() {
+  if(!selectedTutor) return;
+  document.getElementById('modalTutorName').textContent = selectedTutor.name;
+  document.getElementById('modalTutorInfo').textContent = `${selectedTutor.course} ${selectedTutor.year} | ${selectedTutor.studentId}`;
+  document.getElementById('modalTutorSubs').innerHTML = selectedTutor.subjects.map(s => 
+    `<span style="display:inline-block;background:var(--l);color:var(--b);padding:3px 10px;border-radius:10px;font-size:.75em;margin:2px">${s}</span>`
+  ).join('');
+  document.getElementById('modalTutorBio').textContent = selectedTutor.bio || 'No bio provided.';
+  document.getElementById('modalTutorRate').textContent = selectedTutor.rate + ' credits';
+
+  const hasVideo = selectedTutor.roomLink ? true : false;
+  const wantVideoEl = document.getElementById('wantVideoCall');
+  if(wantVideoEl) {
+    wantVideoEl.checked = hasVideo;
+    wantVideoEl.disabled = !hasVideo;
+  }
+
+  hideAlert('bookAlert');
+  document.getElementById('tutorModal').classList.add('act');
+}
+
+function closeModal() {
+  document.getElementById('tutorModal').classList.remove('act');
+  selectedTutor = null;
+}
+
+async function confirmBooking() {
+  if(!selectedTutor) return;
+  const time = document.getElementById('bookTime').value;
+  const wantVideo = document.getElementById('wantVideoCall')?.checked || false;
+
+  if(!time) return showAlert('bookAlert', 'Please select date and time');
+
+  const bookingTime = new Date(time);
+  if(bookingTime < new Date()) return showAlert('bookAlert', 'Please select a future time');
+
+  if(currentUser.balance < selectedTutor.rate) {
+    return showAlert('bookAlert', `Insufficient balance. You need ${selectedTutor.rate} hrs.`);
+  }
+
+  const booking = {
+    studentId: currentUser.id,
+    studentName: currentUser.name,
+    tutorId: selectedTutor.userId,
+    tutorName: selectedTutor.name,
+    subjects: selectedTutor.subjects,
+    rate: selectedTutor.rate,
+    scheduledTime: time,
+    status: 'pending',
+    wantVideo: wantVideo,
+    roomLink: wantVideo ? selectedTutor.roomLink : null,
+    roomId: wantVideo ? selectedTutor.roomId : null
+  };
+
+  try {
+    const res = await fetch('/api/booking', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(booking)
+    });
+    const data = await res.json();
+    
+    if(!data.success) return showAlert('bookAlert', data.error || 'Booking failed');
+
+    currentUser.balance -= selectedTutor.rate;
+    localStorage.setItem('plsp_user', JSON.stringify(currentUser));
+
+    showSuccess('Booking Confirmed!', `Session with ${selectedTutor.name} scheduled. ${wantVideo ? 'Video call link included!' : ''}`);
+    closeModal();
+    goDash();
+  } catch(err) {
+    showAlert('bookAlert', 'Server error. Please try again.');
+  }
+}
+
+// --- BOOKINGS ---
+async function loadMyBookings() {
+  try {
+    const res = await fetch(`/api/bookings/${currentUser.id}`);
+    const bookings = await res.json();
+    const container = document.getElementById('myBookings');
+
+    if(bookings.length === 0) {
+      container.innerHTML = `<div class="es"><i class="fas fa-calendar"></i><p>No bookings yet</p></div>`;
+      return;
+    }
+
+    const now = new Date();
+    container.innerHTML = bookings.map(b => {
+      const isStudent = b.studentId === currentUser.id;
+      const otherName = isStudent ? b.tutorName : b.studentName;
+      const timeStr = new Date(b.scheduledTime).toLocaleString();
+      const canStart = new Date(b.scheduledTime) <= now && b.status === 'booked';
+
+      let actions = '';
+      if(b.status === 'pending') {
+        if(!isStudent) actions = `<button class="btn btn-s" onclick="acceptBooking('${b.id}')"><i class="fas fa-check"></i> Accept</button><button class="btn btn-d" onclick="declineBooking('${b.id}')"><i class="fas fa-times"></i> Decline</button>`;
+        else actions = `<span style="color:var(--w);font-size:.85em"><i class="fas fa-clock"></i> Waiting for tutor...</span>`;
+      } else if(b.status === 'booked') {
+        if(canStart) actions = `<button class="btn btn-s" onclick="startSession('${b.id}')"><i class="fas fa-play"></i> Start Session</button>`;
+        else actions = `<span style="color:var(--info);font-size:.85em"><i class="fas fa-hourglass-half"></i> Upcoming</span>`;
+        if(b.wantVideo && b.roomLink) {
+          actions += `<button class="btn btn-i" style="margin-top:6px" onclick="joinTutorRoom('${b.id}', '${b.roomLink}')"><i class="fas fa-video"></i> Join Video Room</button>`;
+        }
+      } else if(b.status === 'active') {
+        actions = `<button class="btn btn-s" onclick="continueSession('${b.id}')"><i class="fas fa-arrow-right"></i> Continue</button>`;
+      }
+
+      const badgeClass = `badge-${b.status}`;
+      return `
+      <div class="booking-card">
+        <h4>${isStudent ? 'Learning from' : 'Teaching'}: ${otherName} <span class="badge ${badgeClass}">${b.status}</span></h4>
+        <p><i class="fas fa-clock"></i> ${timeStr}</p>
+        <p><i class="fas fa-book"></i> ${b.subjects.join(', ')}</p>
+        <p><i class="fas fa-coins"></i> ${b.rate} hrs</p>
+        ${b.wantVideo ? '<p style="color:var(--ok);font-size:.8em"><i class="fas fa-video"></i> Video call enabled</p>' : ''}
+        <div class="booking-actions">${actions}</div>
+      </div>`;
+    }).join('');
+  } catch(err) {
+    document.getElementById('myBookings').innerHTML = `<div class="es"><i class="fas fa-exclamation-circle"></i><p>Failed to load bookings</p></div>`;
+  }
+}
+
+function joinTutorRoom(bookingId, roomLink) {
+  document.getElementById('roomCodeInput').value = roomLink;
+  joinByRoomCode();
+}
+
+async function acceptBooking(id) {
+  try {
+    const res = await fetch(`/api/booking/${id}`, {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ status: 'booked' })
+    });
+    const data = await res.json();
+    if(data.success) {
+      showToast('Booking accepted!');
+      loadMyBookings();
+    }
+  } catch(err) {
+    showToast('Failed to accept booking');
+  }
+}
+
+async function declineBooking(id) {
+  try {
+    const res = await fetch(`/api/booking/${id}`, { method: 'DELETE' });
+    const data = await res.json();
+    if(data.success) {
+      showToast('Booking declined. Student refunded.');
+      loadMyBookings();
+    }
+  } catch(err) {
+    showToast('Failed to decline booking');
+  }
+}
+
+async function startSession(id) {
+  try {
+    const res = await fetch(`/api/booking/${id}`, {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ status: 'active', startedAt: new Date().toISOString() })
+    });
+    const data = await res.json();
+    if(data.success) {
+      activeBooking = data.booking;
+      startSessionTimer();
+      showDashboard();
+      showToast('Session started! Good luck!');
+    }
+  } catch(err) {
+    showToast('Failed to start session');
+  }
+}
+
+async function continueSession(id) {
+  try {
+    const res = await fetch(`/api/bookings/${currentUser.id}`);
+    const bookings = await res.json();
+    activeBooking = bookings.find(b => b.id === id);
+    startSessionTimer();
+    showDashboard();
+  } catch(err) {
+    showToast('Failed to continue session');
+  }
+}
+
+function checkActiveSession() {
+  const sessionCard = document.getElementById('activeSession');
+  if(activeBooking && activeBooking.status === 'active') {
+    sessionCard.classList.remove('hid');
+    const isStudent = activeBooking.studentId === currentUser.id;
+    document.getElementById('sessionWith').textContent = `With: ${isStudent ? activeBooking.tutorName : activeBooking.studentName}`;
+    document.getElementById('chatWith').textContent = isStudent ? activeBooking.tutorName : activeBooking.studentName;
+
+    if(activeBooking.wantVideo && activeBooking.roomLink) {
+      const videoBtn = document.querySelector('.session-actions .btn-g');
+      if(videoBtn) videoBtn.style.display = 'flex';
+    }
+
+    if(!sessionTimer) startSessionTimer();
+  } else {
+    sessionCard.classList.add('hid');
+    stopSessionTimer();
+  }
+}
+
+// --- SESSION TIMER ---
+function startSessionTimer() {
+  stopSessionTimer();
+  sessionSeconds = 0;
+  sessionTimer = setInterval(() => {
+    sessionSeconds++;
+    const h = Math.floor(sessionSeconds/3600).toString().padStart(2,'0');
+    const m = Math.floor((sessionSeconds%3600)/60).toString().padStart(2,'0');
+    const s = (sessionSeconds%60).toString().padStart(2,'0');
+    document.getElementById('sessionTimer').textContent = `${h}:${m}:${s}`;
+  }, 1000);
+}
+
+function stopSessionTimer() {
+  if(sessionTimer) {
+    clearInterval(sessionTimer);
+    sessionTimer = null;
+  }
+}
+// ==================== PART 8C: VIDEO CALL + CHAT + HISTORY + END SESSION ====================
+
+// --- WEBRTC & VIDEO CALL ---
+function createPeerConnection() {
+  peerConnection = new RTCPeerConnection({
+    iceServers: [{ urls: 'stun:stun.l.google.com:19302' }]
+  });
+
+  peerConnection.onicecandidate = (event) => {
+    if(event.candidate) {
+      socket.emit('ice-candidate', {
+        target: currentRoomId,
+        candidate: event.candidate
+      });
+    }
+  };
+
+  peerConnection.ontrack = (event) => {
+    const remoteVideo = document.getElementById('remoteVideo');
+    if(remoteVideo.srcObject !== event.streams[0]) {
+      remoteVideo.srcObject = event.streams[0];
+      document.getElementById('remotePlaceholder').classList.add('hid');
+    }
+  };
+
+  if(localStream) {
+    localStream.getTracks().forEach(track => {
+      peerConnection.addTrack(track, localStream);
+    });
+  }
+
+  return peerConnection;
+}
+
+async function startVideoCall(isTutor) {
+  const overlay = document.getElementById('videoOverlay');
+  overlay.classList.add('act');
+
+  const roomId = currentRoomId || `session-${Date.now()}`;
+  currentRoomId = roomId;
+
+  socket.emit('join-room', {
+    roomId,
+    userId: currentUser.id,
+    userName: currentUser.name
+  });
+
+  try {
+    localStream = await navigator.mediaDevices.getUserMedia({ video: true, audio: true });
+    videoStream = localStream;
+    const localVideo = document.getElementById('localVideo');
+    localVideo.srcObject = localStream;
+    document.getElementById('localPlaceholder').classList.add('hid');
+
+    createPeerConnection();
+
+    if(isTutor) {
+      const offer = await peerConnection.createOffer();
+      await peerConnection.setLocalDescription(offer);
+      socket.emit('offer', { target: roomId, offer });
+    }
+
+  } catch(err) {
+    console.log('Camera access denied:', err);
+    document.getElementById('localPlaceholder').classList.remove('hid');
+    showToast('Camera not available. Audio-only mode.');
+  }
+
+  startCallTimer();
+}
+
+function joinVideoCall() {
+  if(!activeBooking) return;
+  const roomId = activeBooking.roomId || `booking-${activeBooking.id}`;
+  currentRoomId = roomId;
+  startVideoCall(false);
+}
+
+function startCallTimer() {
+  stopCallTimer();
+  callSeconds = 0;
+  callTimerInterval = setInterval(() => {
+    callSeconds++;
+    const h = Math.floor(callSeconds/3600).toString().padStart(2,'0');
+    const m = Math.floor((callSeconds%3600)/60).toString().padStart(2,'0');
+    const s = (callSeconds%60).toString().padStart(2,'0');
+    const el = document.getElementById('callTimer');
+    if(el) el.textContent = `${h}:${m}:${s}`;
+  }, 1000);
+}
+
+function stopCallTimer() {
+  if(callTimerInterval) {
+    clearInterval(callTimerInterval);
+    callTimerInterval = null;
+  }
+}
+
+function toggleMute() {
+  if(!videoStream) return;
+  isMuted = !isMuted;
+  videoStream.getAudioTracks().forEach(t => t.enabled = !isMuted);
+  const btn = document.getElementById('muteBtn');
+  btn.innerHTML = isMuted ? '<i class="fas fa-microphone-slash"></i>' : '<i class="fas fa-microphone"></i>';
+  btn.classList.toggle('muted', isMuted);
+}
+
+function toggleCam() {
+  if(!videoStream) return;
+  isCamOff = !isCamOff;
+  videoStream.getVideoTracks().forEach(t => t.enabled = !isCamOff);
+  const btn = document.getElementById('camBtn');
+  btn.innerHTML = isCamOff ? '<i class="fas fa-video-slash"></i>' : '<i class="fas fa-video"></i>';
+  btn.classList.toggle('off', isCamOff);
+  document.getElementById('localVideo').style.display = isCamOff ? 'none' : 'block';
+  document.getElementById('localPlaceholder').classList.toggle('hid', !isCamOff);
+}
+
+async function toggleScreenShare() {
+  if(isScreenSharing) {
+    if(screenStream) {
+      screenStream.getTracks().forEach(t => t.stop());
+      screenStream = null;
+    }
+    if(videoStream) {
+      const localVideo = document.getElementById('localVideo');
+      localVideo.srcObject = videoStream;
+    }
+    isScreenSharing = false;
+    document.getElementById('screenBtn').style.background = '#444';
+    showToast('Screen sharing stopped');
+    socket.emit('screen-share', { roomId: currentRoomId, isSharing: false });
+  } else {
+    try {
+      screenStream = await navigator.mediaDevices.getDisplayMedia({ video: true });
+      const localVideo = document.getElementById('localVideo');
+      localVideo.srcObject = screenStream;
+      isScreenSharing = true;
+      document.getElementById('screenBtn').style.background = 'var(--ok)';
+      showToast('Screen sharing started');
+      socket.emit('screen-share', { roomId: currentRoomId, isSharing: true });
+
+      screenStream.getVideoTracks()[0].onended = () => {
+        toggleScreenShare();
+      };
+    } catch(err) {
+      showToast('Screen share cancelled');
+    }
+  }
+}
+
+// --- END SESSION ---
+function showEndSession() {
+  const h = Math.floor(sessionSeconds/3600).toString().padStart(2,'0');
+  const m = Math.floor((sessionSeconds%3600)/60).toString().padStart(2,'0');
+  const s = (sessionSeconds%60).toString().padStart(2,'0');
+  document.getElementById('endSessionDuration').textContent = `${h}:${m}:${s}`;
+
+  if(activeBooking) {
+    const hoursUsed = Math.ceil(sessionSeconds / 3600 * 10) / 10;
+    document.getElementById('creditsToTransfer').textContent = Math.min(hoursUsed, activeBooking.rate);
+  }
+
+  document.getElementById('endModal').classList.add('act');
+}
+
+function closeEndModal() {
+  document.getElementById('endModal').classList.remove('act');
+}
+
+async function endSession() {
+  if(!activeBooking) return;
+
+  const reason = document.querySelector('input[name="endReason"]:checked')?.value || 'completed';
+  const otherReason = document.getElementById('otherReason')?.value || '';
+  const hoursUsed = Math.ceil(sessionSeconds / 3600 * 10) / 10;
+  const creditsUsed = Math.min(hoursUsed, activeBooking.rate);
+
+  try {
+    await fetch('/api/history', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        bookingId: activeBooking.id,
+        studentId: activeBooking.studentId,
+        tutorId: activeBooking.tutorId,
+        studentName: activeBooking.studentName,
+        tutorName: activeBooking.tutorName,
+        subjects: activeBooking.subjects,
+        duration: sessionSeconds,
+        creditsUsed,
+        reason,
+        otherReason,
+        endedAt: new Date().toISOString()
+      })
+    });
+
+    await fetch(`/api/booking/${activeBooking.id}`, {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ status: 'completed', endedAt: new Date().toISOString(), duration: sessionSeconds })
+    });
+
+    const res = await fetch(`/api/user/${currentUser.id}`);
+    const data = await res.json();
+    if(data) {
+      currentUser = data;
+      localStorage.setItem('plsp_user', JSON.stringify(currentUser));
+    }
+
+  } catch(err) {
+    console.error('Failed to end session', err);
+  }
+
+  const wasStudent = activeBooking.studentId === currentUser.id;
+  activeBooking = null;
+  stopSessionTimer();
+  stopCallTimer();
+  sessionSeconds = 0;
+
+  const overlay = document.getElementById('videoOverlay');
+  if(overlay.classList.contains('act')) {
+    overlay.classList.remove('act');
+    if(videoStream) {
+      videoStream.getTracks().forEach(t => t.stop());
+      videoStream = null;
+    }
+    if(screenStream) {
+      screenStream.getTracks().forEach(t => t.stop());
+      screenStream = null;
+    }
+    if(peerConnection) {
+      peerConnection.close();
+      peerConnection = null;
+    }
+    if(currentRoomId) {
+      socket.emit('leave-room', { roomId: currentRoomId });
+    }
+  }
+
+  closeEndModal();
+  showSuccess('Session Ended', `Credits transferred: ${creditsUsed} hrs`);
+  showDashboard();
+
+  if(wasStudent) {
+    setTimeout(() => document.getElementById('rateModal').classList.add('act'), 600);
+  }
+}
+
+// --- RATING ---
+function setRating(n) {
+  currentRating = n;
+  const stars = document.querySelectorAll('#starRating i');
+  stars.forEach((s, i) => {
+    s.className = i < n ? 'fas fa-star' : 'far fa-star';
+    s.style.color = i < n ? 'var(--g)' : '#ccc';
+  });
+}
+
+async function submitRating() {
+  if(currentRating === 0) {
+    document.getElementById('rateModal').classList.remove('act');
+    return;
+  }
+
+  try {
+    const res = await fetch('/api/tutors');
+    const tutors = await res.json();
+    const historyRes = await fetch(`/api/history/${currentUser.id}`);
+    const history = await historyRes.json();
+    const lastSession = history[0];
+
+    if(lastSession) {
+      const tutor = tutors.find(t => t.userId === lastSession.tutorId);
+      if(tutor) {
+        const newRating = ((tutor.rating * tutor.ratingCount) + currentRating) / (tutor.ratingCount + 1);
+        await fetch('/api/tutor', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            userId: tutor.userId,
+            rating: Math.round(newRating * 10) / 10,
+            ratingCount: tutor.ratingCount + 1
+          })
+        });
+      }
+    }
+  } catch(err) {
+    console.error('Failed to submit rating', err);
+  }
+
+  document.getElementById('rateModal').classList.remove('act');
+  currentRating = 0;
+  document.querySelectorAll('#starRating i').forEach(s => {
+    s.className = 'far fa-star';
+    s.style.color = '#ccc';
+  });
+  document.getElementById('rateComment').value = '';
+  showToast('Thank you for your feedback!');
+}
+
+// --- CHAT ---
+function toggleChat() {
+  const panel = document.getElementById('chatPanel');
+  panel.classList.toggle('act');
+  if(panel.classList.contains('act') && activeBooking) {
+    loadChat();
+  }
+}
+
+async function loadChat() {
+  if(!activeBooking) return;
+  try {
+    const res = await fetch(`/api/messages/${activeBooking.id}`);
+    const messages = await res.json();
+    const container = document.getElementById('chatMessages');
+
+    container.innerHTML = messages.map(m => {
+      const isMe = m.senderId === currentUser.id;
+      const time = new Date(m.time).toLocaleTimeString([], {hour:'2-digit',minute:'2-digit'});
+      return `<div class="chat-msg ${isMe?'sent':'received'}">${m.text}<span class="msg-time">${time}</span></div>`;
+    }).join('');
+
+    container.scrollTop = container.scrollHeight;
+  } catch(err) {
+    console.error('Failed to load chat', err);
+  }
+}
+
+function displayChatMessage(data) {
+  const container = document.getElementById('chatMessages');
+  const isMe = data.senderId === currentUser.id;
+  const time = new Date().toLocaleTimeString([], {hour:'2-digit',minute:'2-digit'});
+  
+  const div = document.createElement('div');
+  div.className = `chat-msg ${isMe?'sent':'received'}`;
+  div.innerHTML = `${data.text}<span class="msg-time">${time}</span>`;
+  container.appendChild(div);
+  container.scrollTop = container.scrollHeight;
+}
+
+function sendChat() {
+  const input = document.getElementById('chatInput');
+  const text = input.value.trim();
+  if(!text || !activeBooking) return;
+
+  const messageData = {
+    bookingId: activeBooking.id,
+    senderId: currentUser.id,
+    senderName: currentUser.name,
+    text
+  };
+
+  socket.emit('chat-message', messageData);
+
+  fetch('/api/messages', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      ...messageData,
+      time: new Date().toISOString()
+    })
+  }).catch(err => console.error('Failed to save message', err));
+
+  input.value = '';
+  displayChatMessage(messageData);
+}
+
+// --- HISTORY ---
+async function loadHistory() {
+  try {
+    const res = await fetch(`/api/history/${currentUser.id}`);
+    const history = await res.json();
+    const container = document.getElementById('myHistory');
+
+    if(history.length === 0) {
+      container.innerHTML = `<div class="es"><i class="fas fa-history"></i><p>No session history</p></div>`;
+      return;
+    }
+
+    container.innerHTML = history.slice(0, 10).map(h => {
+      const isStudent = h.studentId === currentUser.id;
+      const durMin = Math.floor(h.duration / 60);
+      const durSec = h.duration % 60;
+      return `
+      <div class="hi">
+        <div class="hif">
+          <strong style="color:var(--b);font-size:.9em">${isStudent?'Learned from':'Taught'}: ${isStudent?h.tutorName:h.studentName}</strong>
+          <p style="font-size:.75em;color:#888">${new Date(h.endedAt).toLocaleDateString()} | ${durMin}m ${durSec}s</p>
+        </div>
+        <div class="hic ${isStudent?'cs':'ce'}">${isStudent?'-':'+'}${h.creditsUsed} hrs</div>
+      </div>`;
+    }).join('');
+  } catch(err) {
+    document.getElementById('myHistory').innerHTML = `<div class="es"><i class="fas fa-exclamation-circle"></i><p>Failed to load history</p></div>`;
+  }
+}
+
+// --- UTILITIES ---
+function showToast(msg) {
+  const toast = document.getElementById('toast');
+  document.getElementById('toastMsg').textContent = msg;
+  toast.classList.add('act');
+  setTimeout(() => toast.classList.remove('act'), 3000);
+}
+
+function showSuccess(title, msg) {
+  document.getElementById('successTitle').textContent = title;
+  document.getElementById('successMsg').textContent = msg;
+  document.getElementById('successModal').classList.add('act');
+}
+
+function closeSuccess() {
+  document.getElementById('successModal').classList.remove('act');
+}
+
+// Check URL for room parameter
+window.addEventListener('load', () => {
+  const urlParams = new URLSearchParams(window.location.search);
+  const roomParam = urlParams.get('room');
+  if(roomParam) {
+    document.getElementById('roomCodeInput').value = `${window.location.origin}/?room=${roomParam}`;
+  }
+});
+</script>
+</body>
+</html>
